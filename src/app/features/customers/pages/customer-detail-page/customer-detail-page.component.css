@@ -1,0 +1,12 @@
+.card {
+  background: #fff;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 16px;
+}

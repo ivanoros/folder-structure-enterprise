@@ -1,0 +1,39 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="grid">
+    <label>
+      Name
+      <input formControlName="name" />
+      @if (form.controls.name.touched && form.controls.name.invalid) {
+        <span class="validation">Name is required.</span>
+      }
+    </label>
+
+    <label>
+      City
+      <input formControlName="city" />
+      @if (form.controls.city.touched && form.controls.city.invalid) {
+        <span class="validation">City is required.</span>
+      }
+    </label>
+
+    <label>
+      Status
+      <select formControlName="status">
+        <option value="Active">Active</option>
+        <option value="Inactive">Inactive</option>
+      </select>
+    </label>
+
+    <label>
+      Contact Email
+      <input formControlName="contactEmail" />
+      @if (form.controls.contactEmail.touched && form.controls.contactEmail.invalid) {
+        <span class="validation">Enter a valid email.</span>
+      }
+    </label>
+  </div>
+
+  <div class="actions">
+    <button type="submit" [disabled]="form.invalid || saving()">Save</button>
+  </div>
+</form>

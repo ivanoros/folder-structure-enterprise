@@ -1,0 +1,37 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 16px;
+  background: #fff;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+input,
+select {
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+}
+
+.actions {
+  margin-top: 16px;
+}
+
+button {
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.validation {
+  color: #b91c1c;
+  font-size: 12px;
+}

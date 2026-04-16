@@ -1,0 +1,24 @@
+<section class="panel">
+  <div class="field">
+    <label for="search">Search</label>
+    <input
+      id="search"
+      [ngModel]="filter().search"
+      (ngModelChange)="searchChange.emit($event)"
+      placeholder="Name, city, email"
+    />
+  </div>
+
+  <div class="field">
+    <label for="status">Status</label>
+    <select
+      id="status"
+      [ngModel]="filter().status"
+      (ngModelChange)="statusChange.emit($event)"
+    >
+      <option value="All">All</option>
+      <option value="Active">Active</option>
+      <option value="Inactive">Inactive</option>
+    </select>
+  </div>
+</section>

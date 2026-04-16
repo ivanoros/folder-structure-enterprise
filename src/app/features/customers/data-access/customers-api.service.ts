@@ -10,7 +10,11 @@ export class CustomersApiService {
   private readonly http = inject(HttpClient);
 
   getCustomers(): Observable<Customer[]> {
-    // Replace with: return this.http.get<CustomerDto[]>('/customers').pipe(...)
+    // Example real version:
+    // return this.http.get<CustomerDto[]>('/customers').pipe(
+    //   map(items => items.map(mapCustomerDto))
+    // );
+
     return of<CustomerDto[]>([
       { id: 1, name: 'Acme Capital', city: 'New York', isActive: true, email: 'ops@acme.com' },
       { id: 2, name: 'Blue River Partners', city: 'Chicago', isActive: false, email: 'desk@blueriver.com' },
@@ -34,6 +38,11 @@ export class CustomersApiService {
   }
 
   updateCustomer(id: number, request: UpdateCustomerRequest): Observable<Customer> {
+    // Example real version:
+    // return this.http.put<CustomerDto>(`/customers/${id}`, request).pipe(
+    //   map(mapCustomerDto)
+    // );
+
     return of({
       id,
       name: request.name,

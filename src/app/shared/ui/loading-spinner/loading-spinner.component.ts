@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-loading-spinner',
   standalone: true,
-  template: `<p class="loading">Loading...</p>`,
-  styles: [`.loading { padding: 12px 0; }`]
+  templateUrl: './loading-spinner.component.html',
+  styleUrl: './loading-spinner.component.css'
 })
 export class LoadingSpinnerComponent {}

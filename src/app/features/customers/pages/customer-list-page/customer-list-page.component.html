@@ -1,0 +1,23 @@
+<app-page-header
+  title="Customers"
+  subtitle="Enterprise-shaped Angular 21 feature with shared UI, state, data-access, detail, and edit screens."
+/>
+
+@if (store.error(); as error) {
+  <app-error-alert [message]="error" />
+}
+
+<app-customer-filter
+  [filter]="store.filter()"
+  (searchChange)="store.setSearch($event)"
+  (statusChange)="store.setStatus($event)"
+/>
+
+@if (store.loading()) {
+  <app-loading-spinner />
+} @else {
+  <app-customer-table
+    [customers]="store.filteredCustomers()"
+    (refreshClicked)="reload()"
+  />
+}

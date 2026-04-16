@@ -1,0 +1,24 @@
+.panel {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 16px;
+  margin-bottom: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 220px;
+}
+
+input,
+select {
+  padding: 10px;
+  border: 1px solid #bbb;
+  border-radius: 8px;
+}

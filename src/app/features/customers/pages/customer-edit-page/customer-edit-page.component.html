@@ -1,0 +1,14 @@
+<app-page-header
+  [title]="'Edit: ' + customer.name"
+  subtitle="Reactive form example"
+/>
+
+@if (error(); as message) {
+  <app-error-alert [message]="message" />
+}
+
+<app-customer-form
+  [customer]="customer"
+  [saving]="saving()"
+  (saveClicked)="save($event)"
+/>
