@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "name": "Acme Capital",
+    "city": "New York",
+    "isActive": true,
+    "email": "ops@acme.com"
+  },
+  {
+    "id": 2,
+    "name": "Blue River Partners",
+    "city": "Chicago",
+    "isActive": false,
+    "email": "desk@blueriver.com"
+  },
+  {
+    "id": 3,
+    "name": "Northwind Trading",
+    "city": "Boston",
+    "isActive": true,
+    "email": "support@northwind.com"
+  }
+]

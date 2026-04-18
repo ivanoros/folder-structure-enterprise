@@ -1,7 +1,7 @@
 import { Injectable, computed, inject, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
-import { CustomersApiService } from '../data-access/customers-api.service';
+import { CustomersApiService } from '../data-access/customers-api.service-hardcoded';
 import { Customer, CustomerFilter } from '../models/customer.models';
 
 @Injectable()

@@ -9,8 +9,13 @@ export class CustomersListStore {
   private readonly api = inject(CustomersApiService);
 
   readonly customers = signal<Customer[]>([]);
+  readonly selectedCustomer = signal<Customer | null>(null);
+
   readonly loading = signal(false);
+  readonly loadingCustomer = signal(false);
+
   readonly error = signal<string | null>(null);
+  readonly customerError = signal<string | null>(null);
 
   readonly filter = signal<CustomerFilter>({
     search: '',
@@ -50,11 +55,38 @@ export class CustomersListStore {
     }
   }
 
+  async loadCustomerById(id: number): Promise<void> {
+    this.loadingCustomer.set(true);
+    this.customerError.set(null);
+    this.selectedCustomer.set(null);
+
+    try {
+      const customer = await firstValueFrom(this.api.getCustomerById(id));
+      this.selectedCustomer.set(customer);
+    } catch (error) {
+      console.error(error);
+      this.customerError.set(`Failed to load customer ${id}.`);
+    } finally {
+      this.loadingCustomer.set(false);
+    }
+  }
+
+  clearSelectedCustomer(): void {
+    this.selectedCustomer.set(null);
+    this.customerError.set(null);
+  }
+
   setSearch(search: string): void {
-    this.filter.update(current => ({ ...current, search }));
+    this.filter.update(current => ({
+      ...current,
+      search
+    }));
   }
 
   setStatus(status: CustomerFilter['status']): void {
-    this.filter.update(current => ({ ...current, status }));
+    this.filter.update(current => ({
+      ...current,
+      status
+    }));
   }
 }

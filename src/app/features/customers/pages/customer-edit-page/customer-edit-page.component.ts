@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
 import { Customer } from '../../models/customer.models';
-import { CustomersApiService } from '../../data-access/customers-api.service';
+import { CustomersApiService } from '../../data-access/customers-api.service-hardcoded';
 import { CustomerFormComponent } from '../../components/customer-form/customer-form.component';
 import { PageHeaderComponent } from '../../../../shared/ui/page-header/page-header.component';
 import { ErrorAlertComponent } from '../../../../shared/ui/error-alert/error-alert.component';

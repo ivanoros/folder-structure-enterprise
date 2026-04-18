@@ -9,5 +9,5 @@ export const customerDetailResolver: ResolveFn<Customer> = async (route) => {
   const api = inject(CustomersApiService);
   const id = Number(route.paramMap.get('id'));
 
-  return firstValueFrom(api.getCustomer(id));
+  return firstValueFrom(api.getCustomerById(id));
 };

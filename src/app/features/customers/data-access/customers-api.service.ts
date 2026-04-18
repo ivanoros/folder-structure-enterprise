@@ -9,36 +9,35 @@ import { mapCustomerDto } from './customer.mapper';
 export class CustomersApiService {
   private readonly http = inject(HttpClient);
 
-  getCustomers(): Observable<Customer[]> {
-    // Example real version:
-    // return this.http.get<CustomerDto[]>('/customers').pipe(
-    //   map(items => items.map(mapCustomerDto))
-    // );
+  private readonly customersJsonUrl = '/mock-data/customers.json';
 
-    return of<CustomerDto[]>([
-      { id: 1, name: 'Acme Capital', city: 'New York', isActive: true, email: 'ops@acme.com' },
-      { id: 2, name: 'Blue River Partners', city: 'Chicago', isActive: false, email: 'desk@blueriver.com' },
-      { id: 3, name: 'Northwind Trading', city: 'Boston', isActive: true, email: 'support@northwind.com' }
-    ]).pipe(
-      delay(300),
-      map(items => items.map(mapCustomerDto))
-    );
-  }
+    private loadCustomerDtos(): Observable<CustomerDto[]> {
+        return this.http.get<CustomerDto[]>(this.customersJsonUrl);
+    }
 
-  getCustomer(id: number): Observable<Customer> {
-    return this.getCustomers().pipe(
-      map(items => {
-        const customer = items.find(x => x.id === id);
-        if (!customer) {
-          throw new Error(`Customer ${id} not found`);
-        }
-        return customer;
-      })
-    );
-  }
+    getCustomers(): Observable<Customer[]> {
+        return this.loadCustomerDtos().pipe(
+            map(items => items.map(mapCustomerDto))
+        );
+    }
+
+    getCustomerById(id: number): Observable<Customer> {
+        return this.loadCustomerDtos().pipe(
+            map(items => {
+            const dto = items.find(x => x.id === id);
+
+            if (!dto) {
+                throw new Error(`Customer ${id} not found`);
+            }
+
+            return mapCustomerDto(dto);
+            })
+        );
+    }
 
   updateCustomer(id: number, request: UpdateCustomerRequest): Observable<Customer> {
-    // Example real version:
+    // Mock implementation only.
+    // In a real app, this would be:
     // return this.http.put<CustomerDto>(`/customers/${id}`, request).pipe(
     //   map(mapCustomerDto)
     // );
