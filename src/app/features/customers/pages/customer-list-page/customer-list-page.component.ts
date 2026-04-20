@@ -24,8 +24,9 @@ import { ErrorAlertComponent } from '../../../../shared/ui/error-alert/error-ale
 export class CustomerListPageComponent implements OnInit {
   readonly store = inject(CustomersListStore);
 
-  ngOnInit(): void {
-    void this.store.load();
+  async ngOnInit(): Promise<void> {
+    await this.store.load();
+    this.store.startAutoRefresh(15000);
   }
 
   reload(): void {

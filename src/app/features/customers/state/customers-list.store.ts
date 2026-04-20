@@ -1,4 +1,4 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { DestroyRef, Injectable, computed, inject, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 
 import { CustomersApiService } from '../data-access/customers-api.service';
@@ -7,15 +7,13 @@ import { Customer, CustomerFilter } from '../models/customer.models';
 @Injectable()
 export class CustomersListStore {
   private readonly api = inject(CustomersApiService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  private refreshTimerId: number | null = null;
 
   readonly customers = signal<Customer[]>([]);
-  readonly selectedCustomer = signal<Customer | null>(null);
-
   readonly loading = signal(false);
-  readonly loadingCustomer = signal(false);
-
   readonly error = signal<string | null>(null);
-  readonly customerError = signal<string | null>(null);
 
   readonly filter = signal<CustomerFilter>({
     search: '',
@@ -40,8 +38,17 @@ export class CustomersListStore {
     });
   });
 
-  async load(): Promise<void> {
-    this.loading.set(true);
+  constructor() {
+    this.destroyRef.onDestroy(() => {
+      this.stopAutoRefresh();
+    });
+  }
+
+  async load(showLoading: boolean = true): Promise<void> {
+    if (showLoading) {
+      this.loading.set(true);
+    }
+
     this.error.set(null);
 
     try {
@@ -51,42 +58,34 @@ export class CustomersListStore {
       console.error(error);
       this.error.set('Failed to load customers.');
     } finally {
-      this.loading.set(false);
+      if (showLoading) {
+        this.loading.set(false);
+      }
     }
   }
 
-  async loadCustomerById(id: number): Promise<void> {
-    this.loadingCustomer.set(true);
-    this.customerError.set(null);
-    this.selectedCustomer.set(null);
-
-    try {
-      const customer = await firstValueFrom(this.api.getCustomerById(id));
-      this.selectedCustomer.set(customer);
-    } catch (error) {
-      console.error(error);
-      this.customerError.set(`Failed to load customer ${id}.`);
-    } finally {
-      this.loadingCustomer.set(false);
+  startAutoRefresh(intervalMs: number = 15000): void {
+    if (this.refreshTimerId !== null) {
+      return;
     }
+
+    this.refreshTimerId = window.setInterval(() => {
+      void this.load(false);
+    }, intervalMs);
   }
 
-  clearSelectedCustomer(): void {
-    this.selectedCustomer.set(null);
-    this.customerError.set(null);
+  stopAutoRefresh(): void {
+    if (this.refreshTimerId !== null) {
+      window.clearInterval(this.refreshTimerId);
+      this.refreshTimerId = null;
+    }
   }
 
   setSearch(search: string): void {
-    this.filter.update(current => ({
-      ...current,
-      search
-    }));
+    this.filter.update(current => ({ ...current, search }));
   }
 
   setStatus(status: CustomerFilter['status']): void {
-    this.filter.update(current => ({
-      ...current,
-      status
-    }));
+    this.filter.update(current => ({ ...current, status }));
   }
 }
